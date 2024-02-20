@@ -8,7 +8,7 @@ My first really big bug in production is still one of my favorite (yes I have fa
 
 I learned a lot from this bug and it kind of defined my approach to software development for the rest of my career.
 
-# How to break a million euros industrial machine
+## How to break a million euros industrial machine
 
 The story takes place a few months after I've started my first software development job.
 
@@ -115,11 +115,11 @@ and who skipped lunch with him and stayed after work to help him fix the problem
 So, when all was said and done, I broke a hundreds thousands euros machine on the day of a million euros contract negotiation.
 And everyone is happy with me, except for myself :-D
 
-# Where did I go from here ?
+## Where did I go from here ?
 
 This bug was my first big learning experience, and would shape a lot of my approach to professional software development in the year to come.
 
-## Our tools suck
+### Our tools suck
 
 And especially our programming languages suck, **hard**.
 
@@ -143,7 +143,7 @@ We work with shitty programming languages.
 Everybody think this is fine.
 It is not.
 
-## RTFM
+### RTFM
 
 I couldn't accept the fact that my tools could let this kind of error happen without warning me.
 
@@ -184,7 +184,7 @@ But I've worked on too many projects with tons of untraceable bugs that could ea
 Take the time at the start of your project to setup your tool configuration properly.
 Too often people just use the insufficient defaults. But then they didn't read the documentation.
 
-### But it's better today right ?
+#### But it's better today right ?
 
 Just for the fun of it, I tested this mistake in my current team's projects.
 We work in Javascript/Typescript, and in 2024 surely our tools do a better job of it ?
@@ -215,7 +215,7 @@ In Javascript our tools (ironically) do a slightly better job of it.
 
 The linter complains that the code block is useless, and the automatic lint fix does not fixes this error, meaning the error will be caught before production.
 
-## Towards TDD
+### Towards TDD
 
 This experience, and a lot of other regression bugs in the months that followed, would lead to me question my team's development methods.
 
@@ -251,7 +251,7 @@ After 15 years of TDD practice, "preventing stupid programming mistakes" might h
 but TDD has become the fastest way to deliver product value I know of, 
 allowing me to deliver easily 10x faster than the traditional "try stuff until it works and hope you break nothing important" approach.
 
-## Customer support is your first client, and your best ally
+### Customer support is your first client, and your best ally
 
 This was the first of a long series of mutually benefiting experiences with customer support people.
 
@@ -283,7 +283,7 @@ Unfortunately in a lot of teams, management enable developers into ignoring the 
 not owning the consequences of their work in production ;
 and priorities instead the release of new features coming from (product) managers with no real experience of the product.
 
-## Team solidarity
+### Team solidarity
 
 In the months following the incident, I would progressively become more and more isolated in the team, until leaving it after 2 years.
 I didn't really feel at my place in the team and I didn't know why.
