@@ -104,3 +104,28 @@ ul.index {
 code {
   white-space: pre;
 }
+
+table {
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 2rem;
+}
+
+table th,
+table td {
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 0.1rem solid #ccc;
+}
+
+table th {
+  font-weight: bold;
+}
+
+table thead th {
+  vertical-align: bottom;
+}
