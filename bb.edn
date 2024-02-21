@@ -2,6 +2,7 @@
  :tasks
  {:requires ([quickblog.cli :as cli])
   :init (def opts {:blog-title "The Liche Dev"
-                   :blog-description "The tech blog of an old liche dev"})
+                   :blog-description "The tech blog of an old liche dev"
+                   :blog-root "https://thelichedev.blog"})
   quickblog {:doc "Start blogging quickly! Run `bb quickblog help` for details."
              :task (cli/dispatch opts)}}}

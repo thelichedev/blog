@@ -10,6 +10,8 @@ I learned a lot from this bug and it kind of defined my approach to software dev
 
 ## How to break a million euros industrial machine
 
+### Some context
+
 The story takes place a few months after I've started my first software development job.
 
 I'm working on embedded industrial software, in C, using the Qnx operating system.
@@ -31,6 +33,8 @@ They have a demonstration planned with Airbus representatives at their plant.
 The machine cost them a pair hundreds thousand euros, and the contract could represent a few millions euros.
 Nothing big.
 
+### Shit hits the fan
+
 On the eve of the demonstration, I delivered a new version of the configuration application, integrating the features
 required by the client for their demonstration.
 
@@ -47,7 +51,7 @@ We understand rapidly that the client's configuration files have been deleted fr
 Thankfully this is not his first rodeo, so he dutifully backed up the configuration files before setting up the new software,
 which means we can at least restore the previous configuration.
 
-Unfortunately, the client's demonstration cannot be done with done with the previous version of the control application,
+Unfortunately, the client's demonstration cannot be done with the previous version of the control application,
 and the new version requires a new version of the configuration, which my application has to generate.
 So we can't simply rollback the software and configuration to the previous version.
 
@@ -65,6 +69,8 @@ The demonstration is canceled and the client must negotiate with Airbus without 
 
 The end of the work day comes and goes, I stay at work, and our technician stays on the phone.
 I can still hear him discuss the situation with the client's staff. Everybody is tired.
+
+### The bug
 
 Around 10pm I finally find the problem.
 
@@ -85,6 +91,8 @@ But instead of deleting the user configuration only when a reset was requested, 
 
 I can't remember the exact logic which lead me to having a piece of code resetting the user configuration in the function that generates said configuration,
 but the result was that instead of generating a new configuration, the user configuration was deleted.
+
+### Aftermath
 
 I told our technician that I had found the bug and would deliver a patched version of the configuration application right away.
 As the year is 2006, I can't send this new application to the technician over the internet, we barely just got it installed at work :-)
