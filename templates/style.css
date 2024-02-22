@@ -85,7 +85,14 @@ p {
 
 .page-link {
   text-decoration: none;
-  vertical-align: middle;
+  color: currentColor;
+  transition: border-bottom 0.2s ease;
+  border-bottom: 2px solid transparent;
+  padding: 5px;
+}
+
+.page-link:hover {
+  border-bottom: 2px solid #d0d7de;
 }
 
 .page-icon {
