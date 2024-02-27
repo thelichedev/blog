@@ -115,7 +115,7 @@ We often like to talk about the mythic 10x developers. Developers who delivers p
 
 In my experience, there is only one factor that make a team delivers an order of magnitude faster: a strict quality standard.
 
-Yes, quality does pay for itself, but it also repays you 10 times mores.
+Yes, **quality does pay for itself**, but it also repays you 10 times mores.
 
 Two determining effects that I can't stress enough coumpound themselves to gives mature teams a competitive advantage.
 
