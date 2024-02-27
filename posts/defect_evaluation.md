@@ -15,31 +15,38 @@ faster than teams that "could never afford quality, because they needed to deliv
 
 But how do we know if we're doing ok on quality ?
 
+<!-- end-of-preview -->
+
+## Why do we need a framework to evaluate defects ?
+
 I've always found that measuring quality directly is not easy. However measuring nonconformance always seemed to be easier.
 When we find a defect in our product, there is evidence to analyse, and we can often evaluate the cost of the defect.
 At least far better than the direct benefits of focusing on quality.
 
 [Quality is free][1] also confirmed to me that the measurement of quality is the price of nonconformance.
 
-So how do we evaluate nonconformance in a software project ?
+I approach management of a software project as a basic series of steps:
+- identify our current situation
+- decide our objectives, where we want to be
+- plan how we go from where we are, to where we want to be (or, how do we ensure we stay in the right place)
 
-<!-- end-of-preview -->
+However, over the year I've worked on software developement teams, I've never seen teams monitor the price of their nonconformance.
 
-And how should we react to defects ?
+Defects are discovered continuously but no effort is made to qualify them, to evaluate the current load of nonconformance on the team's work,
+and even less to monitor tendencies.
 
-Are all defects unavoidable in a software project ? 
-
-Should we just accept defects as a price of actually adding new value to the product ?
-
-Or are some defects symptom of a lack of quality consciouness in our practices ?
-
-Do we just need to improve our tools and our processes, or is our team exhibiting a bad quality culture ?
-
-Over the years I've developped an implicit mental model to evaluate the maturity of my teams' approach to defects.
+So, deprived of any quality metric measurements to help me manage my teams' quality practices, 
+I've had to develop an empiric model, first to evaluate my team current situation regarding quality.
 This blog is an attempt to exteriorize this model.
 
-Please not that the approach here is mainly oriented toward monitoring the quality practices,
-not finding the root causes of defects, or deciding on the corrective measures.
+Were all our defects an unavoidable cost to delivering new product value ? 
+
+Should we improve our development or dectection tools ?
+
+Are some defects symptomatic of a lack of quality consciouness in our practices ?
+
+Please note that the approach described here is mainly oriented towards monitoring the quality tools and practices,
+not finding the root causes of defects, or deciding on the corrective measures specific to each defect.
 
 ## First a few definitions
 
@@ -61,7 +68,7 @@ Here I use the two words indistinctly, because I don't distinguish between payin
 
 I think this is legitimate since in both situations, nonquality will incur important costs:
 
-- users will not give us money
+- customers will not give us money
 - support operation costs will rise
 
 Different dynamics, same consequence: we loose money and users are not happy.
@@ -76,7 +83,7 @@ but I also use them to "manage" my personal quality practices.
 
 I'll speak about mature teams to describe teams where quality is a competitive advantage, and immature teams where quality is seen mainly as an unaffordable cost.
 
-Mature teams exhibit (often inconsciously) control over their quality practices, immature teams exhibit a absence of control, or even of awareness of their quality problems.
+Mature teams exhibit (often inconsciously) control over their quality practices, immature teams exhibit an absence of control, or even of awareness of their quality problems.
 
 ## A simple sotware defect evaluation grid
 
@@ -92,12 +99,12 @@ First, I try to evaluate the **quality of the delivery**:
 - **delivery failures**: the user value was never delivered.
   Our users' expectations were never met by the product.
 
-  This could be caused by defects in our implementation (what we call traditionnally "bugs") or by a missing part in the feature (we "forgot" to implement a part of what was expected).
+  This could be caused by defects in our implementation (what we call traditionnally "bugs") or by a missing part in the feature (we "forgot" to implement part of what was expected).
 
 - **regression failures**: the user value was delivered, but was lost later on.
   Our users' expectations were met at some time, but now they're not satisfied anymore.
 
-  This could be caused by errors in our implementation of a new feature (leading to the loss of an older feature), 
+  This could be caused by errors in our implementation of a new feature (leading to the loss of an older feature),
   or any change in the operation context that prevents our old feature to work
   (eg. external services behaviour changes, tools retrocompatibility failures, load increases rendering the product unusable, etc).
 
@@ -134,21 +141,9 @@ I do this by looking at how far the defects made it into the product before they
 
   Fixing the defect implies fixing users data, sometimes informing the users of the defect and apologizing.
 
-It is well documented that defects cost more to fix, the later they are found in the development process.
-
-Our attention should focus on tools and processes that prevent defects from being delivered,
-or even making it into the product's implementation during development.
-
-As professionals who aim to deliver a good product to our users, we want to be proud of our work, and there is also a psychological difference between:
-
-- a defect that is caught before the users (outside our team) are impacted.
-- a defect that massively impacts our users and increases our customer support load.
-
-The second scenario hurts, and in my experience, in the long term it will lead to a lot of disengagement from team members.
-
 ### Defect evaluation grid
 
-Those 2 axes give me a nice little grid on which to place the defects found by my teams:
+Those 2 axes give me a nice little grid, on which to place the defects found by my teams:
 
 |                        | delivery failures | regression failures | missing value |
 |:-----------------------|:-----------------:|:-------------------:|:-------------:|
@@ -181,7 +176,7 @@ The Maturity of Discovery axis is a continuum, and the limits are more of a guid
 A mature team should be able deliver new user value that works, reliably.
 We have a lot of tooling and methodology to help us dramatically reduce delivery failures.
 
-The worst immature teams I've worked with, made it a habit to deliver features that don't work reliably,
+The worst immature teams I've worked on, made it a habit to deliver features that don't work reliably,
 and showed no interest in improving on this point.
 
 Immature teams can also try to deliver working software, but using such methods and tools that the costs are indeed too high for their context,
@@ -195,10 +190,19 @@ Again, we have tools at our disposal to detect those defects as soon as possible
 but in my experience it is unavoidable that some of these will find their way into delivery,
 and impact users.
 
+Some of the Regression failures also come from changes in our operating context,
+like an external service changing a behaviour we rely on, and we have limited control over this.
+Defensive programming techniques can help up detect the problem sooner but most of the time
+it will impact our users.
+
 **Missing requirements are actually a desirable kind of defects**.
 
 You're discovering user value and you're updating your knowledge of the users expectations,
 allowing you to adapt and maintain you competitive advantage.
+
+However, in the most immature teams, making the difference between a Missing feature and a Delivery or Regression failure
+is already a challenge in itself. Operations are constantly swamped by defects of all kinds,
+and the delivered product value is poorly documented and thus poorly understood by the team.
 
 ### Maturity of Discovery
 
@@ -230,109 +234,12 @@ Anytime they are confronted with a problem, they will suspect a defect in your p
 The team's difficulties with diagnostic (the product is constantly flooded with errors) will increase the cost of this mistrust even more ;
 it'll take time to exonerate our product when the defect is caused by another part of the context (eg misuse, miscommunication, defects in external services, etc).
 
-## Teams maturity
+It is one of the most important loss of product value that immature teams fail to understand.
+Accepting that each new delivery comes with new defects, even mostly harmless ones, will make you loose a lot of trust capital with your users.
 
-### Immature teams
+### Driving quality
 
-Immature teams can't afford quality because they have to move fast.
-
-To be clear this is the situation of the majority of the teams I've worked on in my careers.
-
-They have a frequency of defects that looks like this:
-
-|                           | delivery failures | regression failures | missing value |
-|:--------------------------|:-----------------:|:-------------------:|:-------------:|
-| **before development**    | never             | never               | never         |
-| **during development**    | rare              | rare                | never         |
-| **before delivery**       | only the most trivial | only the most trivial | rare          |
-| **before user impact**    | rare              | rare                | rare          |
-| **after user impact**     | frequent          | frequent            | under extreme user pressure |
-
-**Most defects are found in delivery, through user feedback and support.**
-
-Those teams most likely have a support tickets system in place, probably even a backlog of issues that are never corrected.
-
-Management in these teams considers their support tickets tools and boards as a proof of the maturity of their team's approach to quality.
-But it is in fact a symptom of their quality problems: they have so much defects that they need a whole organisation to prioritize them.
-
-If we look at the "after user impact" line, we see why **those teams can never build a trust capital.**
-
-|                           | delivery failures | regression failures | missing value |
-|:--------------------------|:-----------------:|:-------------------:|:-------------:|
-| **after user impact**     | frequent          | frequent            | under extreme user pressure |
-
-Users are constantly impacted by defects, even if they are harmless, whick **take their toll on the trust they have in the product**.
-
-Missing requirements are developped on the basis of "how many users requested this feature", aka "extreme user pressure".
-The team cannot anticipate the needs of their users since they are undistinguishable amongst the flood of daily errors in delivery.
-
-Management in those teams usually only reacts when the impact of the defects is extremely high.
-Low impact defects are ignored as "business as usual, move fast and break things".
-
-This is **a major sign of management immaturity**, since the low and high impacts often have the same root causes.
-Ignoring low impact defects actually leaves you exposed to a future high impact defect that could have been avoided by acting sooner on the quality signals.
-
-The symptoms are also visible in the relationship between the development team and the support.
-Support finds ways to "go around" the defects, that are well known and even documented in the support knowledge base.
-**Support considers most defect will never be fixed** and doesn't even report them to the developers team anymore.
-
-Developers show no interest in support operations and difficulties, and might even develop a form of contempt for the support team, enabled by management.
-
-"Support does not know how our product works, and do more harm than good trying to fix the clients' problems"
-
-### Mature teams
-
-The mature teams I worked with have an implicit culture of **"do it right the first time"**.
-
-I've only worked on such a team twice in my career. They are clearly the exception.
-
-They have a frequency of defects that looks like this:
-
-|                           | delivery failures | regression failures | missing value |
-|:--------------------------|:-----------------:|:-------------------:|:-------------:|
-| **before development**    | rare              | rare                | rare          |
-| **during development**    | frequent          | rare                | rare          |
-| **before delivery**       | frequent          | frequent            | frequent      |
-| **before user impact**    | rare              | rare                | frequent      |
-| **after user impact**     | never             | rare                | frequent      |
-
-**Most defects are found before delivery, and never impact users outside of the team.**
-
-Those teams might have a support tickets system in place, but it is mostly empty.
-They have no issues backlog, as defects impacting users are rare enough, and considered severe enough to be immediatly fixed.
-
-Management in these teams don't give much attention to the tracking of issues, since it mostly works fine as is.
-
-If we look at the "user impact" line, we see why **those teams can capitalize on trust.**
-
-|                           | delivery failures | regression failures | missing value |
-|:--------------------------|:-----------------:|:-------------------:|:-------------:|
-| **after user impact**     | never             | rare                | frequent      |
-
-Users are almost never impacted by defects, and build **a capital of trust with the product and the development team**.
-
-Missing requirements reported by the users or the support team are rapidly acted upon.
-The team often anticipates the needs of their user by discovering missing requirements during development, or through the observation of the impact of their delivery.
-
-Management in those teams usually does not actively manage quality.
-It could be seen as a sign of immaturity of the management of quality (and in a way it is),
-but it reflects the fact that quality is a core value of the team, which doesn't need managment.
-
-**Quality is "left to the team"**. The team, and each of its members, reacts actively enough to defects reaching delivery.
-
-The lack of management could however lead to a loss of this core value, as developers leave the team and
-are replaced with new developers who don't have this core value.
-
-**The team also has a trusting relationship with customer support.**
-Support appreciate that they are not uselessly flooded with silly defects.
-
-Developers show interest in support operations and actively develop tools to help support in their work.
-
-"Support are our first users"
-
-### My quality ethics
-
-Over the years I've developped my own ethics regarding my and my teams' defects.
+Over the years I've developped my own objetives regarding my and my teams' defects.
 
 |                           | delivery failures | regression failures | missing value |
 |:--------------------------|:-----------------:|:-------------------:|:-------------:|
@@ -348,26 +255,20 @@ Over the years I've developped my own ethics regarding my and my teams' defects.
 - **risky**: defects found at this stage, though not always avoidable, should be considered as materialisation of a risk.
 - **unacceptable**: finding defects at this stage should not be considered acceptable, and should lead to a team/developper introspection ("never again").
 
-## Management
+Basically, we want to catch our defects sooner, to reduce their correction cost. So **we want to drive defects detection towards the top of the grid**.
 
-As software developers, we know that any software activity worth doing comes with a quality risk (risk of defects).
+Deliver failures basically mean that we are not in control of our delivery. We fail to deliver the promised product value.
+This should make any team react energically to this kind of defects. Unfortunately in most teams it does not.
 
-This is not the same as saying "we cannot afford quality", which is still today the approach to quality management in the vast majority of teams.
-The difference is what I call **quality management**.
+Missing value discovered before our users requested the feature means we are able to adate faster and maintain a competitive advantage
+over our competitors.
 
-### Levels of management
+**We want to eliminate defects on the left to make the defects on the right more apparent**.
 
-I feel there is also a scale of maturity for quality management:
-- **level 0 management: ignorance** the team only react to defects according to their impact.
-- **level 1 management: awareness** the team at least tries to monitor defects, but will still react only to sudden increases in the number of defects.
-- **level 2 management: improvement** the team monitors defects, and actively tries to improve tools and culture in order to reach a "zero-defect in delivery" state, but is not there yet.
-- **level 3 management: maturity** the team has made quality a core value of the development practice. The team as reached a state of (mostly) "zero-defect in delivery", and is capitalizing on the trust they gained from all actors in their context.
+So basically we want to drive defect away from the bottom left, towards the upper right.
+**We want to drive defect away from "uncontrolled delivery", towards "new value discovery".**
 
-Level 3 is not a lofty ideal, I've worked on teams and projects that had reached this level of quality.
-
-They were also the teams were the delivery was the fastest I ever experienced, orders of magnitude above the speed of level 0 teams, who can't afford quality.
-
-### Managing risk
+### Managing quality risk
 
 The grid also shows where I would expect risk management in a mature team.
 
@@ -387,5 +288,22 @@ Root cause analysis should be performed to understand the underlying management 
 Finding excuses or considering those kind of defects as unavoidable should never happen. 
 
 Unfortunately it regularly does in the immature teams.
+
+## Conclusion
+
+As software developers, we know that any software activity worth doing comes with a quality risk (risk of defects).
+
+This is not the same as saying "we cannot afford quality", which is still today the approach to quality management in the vast majority of teams.
+The difference is what I call **quality management**.
+
+I feel there is also a scale of maturity for quality management:
+- **level 0 management: ignorance** the team only react to defects according to their impact.
+- **level 1 management: awareness** the team at least tries to monitor defects, but will still react only to sudden increases in the number of defects.
+- **level 2 management: improvement** the team monitors defects, and actively tries to improve tools and culture in order to reach a "zero-defect in delivery" state, but is not there yet.
+- **level 3 management: maturity** the team has made quality a core value of the development practice. The team as reached a state of (mostly) "zero-defect in delivery", and is capitalizing on the trust they gained from all actors in their context.
+
+Level 3 is not a lofty ideal, I've worked on teams and projects that had reached this level of quality.
+
+They were also the teams were the delivery was the fastest I ever experienced, orders of magnitude above the speed of level 0 teams, who can't afford quality.
 
 [1]: https://en.wikipedia.org/wiki/Philip_B._Crosby#Quality_is_Free

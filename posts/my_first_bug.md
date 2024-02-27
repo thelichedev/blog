@@ -8,6 +8,8 @@ My first really big bug in production is still one of my favorite (yes I have fa
 
 I learned a lot from this bug and it kind of defined my approach to software development for the rest of my career.
 
+<!-- end-of-preview -->
+
 ## How to break a million euros industrial machine
 
 ### Some context
