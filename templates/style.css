@@ -104,6 +104,14 @@ ul.index {
   margin-bottom: 1em;
 }
 
+li {
+  line-height: 1.5;
+}
+
+li+li {
+  margin-top: .5em;
+}
+
 code {
   white-space: pre;
 }
@@ -157,12 +165,22 @@ p a:hover {
 }
 
 aside {
-  margin-left: 2rem;
   background-color: #e4eef7;
-  padding: 1rem;
+  padding: 1.25rem 1.5rem;
   border-radius: 0.5rem;
+  border: 1px solid #bcd2e5;
+  color: #484f57;
 }
 
-code {
-  background-color: #fdf5e2;
+aside > *:last-child {
+  margin-bottom: 0;
 }
+
+code { 
+  background-color: #afb8c133;
+  white-space: break-spaces;
+  border-radius: 6px;
+  padding: 0.2em 0.4em; 
+  font-size: 85%;  
+}
+ 
