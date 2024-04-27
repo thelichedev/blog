@@ -1,0 +1,58 @@
+flowchart TD
+classDef bug fill:#FFECEC
+classDef nobug fill:#ECFFEC
+classDef yel fill:#ffffde,stroke:#aaaa33
+
+A(Does your code work as expected, in the expected context ?)
+A -->|No| B(Are the contracts between code units respected ?)
+B -->|No| C(fa:fa-bug Contract bug):::bug
+B -->|Yes| D(fa:fa-bug Algorithm bug):::bug
+A --->|Yes| E(Is the context conform to expectations ?)
+E -->|No| F(Is the context valid ?)
+F -->|Yes| G(fa:fa-bug Incomplete algorithm bug):::bug
+F -->|No| H(Is it due to invalid external input ?)
+H -->|Yes| I(fa:fa-bug Validation bug):::bug
+H -->|No| J(fa:fa-bug State machine defect):::bug
+E ---->|Yes| K(Is there a problem with time ?)
+K -->|Yes| L(Did things not happen in the expected order ?)
+L -->|No| M(fa:fa-bug Scheduling defect):::bug
+L -->|Yes| N(fa:fa-bug Time Performance defect):::bug
+K --->|No| O(Is there a problem with operation costs ?)
+O -->|Yes| P(fa:fa-bug Costs Performance defect):::bug
+O -->|No| Q(Can the user actually use the feature ?)
+Q -->|No| R(fa:fa-bug Usability defect):::bug
+Q -->|Yes| S(The expected behavior is useful ?)
+S -->|No| T(fa:fa-bug Product knowledge defect):::bug
+S -->|Yes| U(Is your product safe ?)
+U -->|No| V(fa:fa-bug Safety defect):::bug
+U -->|Yes| W(fa:fa-face-smile No problem !):::nobug
+
+subgraph FF [Safety defects]
+  direction LR
+  V
+end
+subgraph EE [Product defects]
+  direction LR
+  R
+  T
+end
+subgraph DD [Cost defects]
+  direction LR
+  P
+end
+subgraph CC [Time defects]
+  direction LR
+  M
+  N
+end
+subgraph BB [State machine defects]
+  direction LR
+  J
+end
+subgraph AA [Algorithm bugs]
+  direction LR
+  C
+  D
+  G
+  I
+end

@@ -48,7 +48,7 @@ and from here you can think about how best to react to this defect, which tool c
 
 Ask yourself these questions, in order:
 
-> - Does your code work as expected, in the expected context ?
+![Question #01](/assets/defects_taxonomy/01_question_01.svg)
 
 Your code is basically an algorithm expecting to be executed in a specific context.
 As a developer, while you code, you think of the possible contexts and the expected results.
@@ -56,16 +56,13 @@ As a developer, while you code, you think of the possible contexts and the expec
 But writing a code that runs as you intend, is actually not guaranteed.
 Depending on your language and tools it might even be a prowess in itself.
 
-> - Does your code work as expected, in the expected context ?  
->   - No -> Are the contracts between code units respected ?
+![Question #02](/assets/defects_taxonomy/02_question_02.svg)
 
 Code units define request/response contracts with their client code.
 
-Some function might be unhappy with the way your code units are talking to it. 
+Some function might be unhappy with the way your code units are talking to it.
 
-> - Does your code work as expected, in the expected context ?  
->   - No -> Are the contracts between code units respected ?  
->     - No -> **Contract bug**
+![Contract bug](/assets/defects_taxonomy/03_contract_bug.svg)
 
 Usually, **not respecting the request contract gives you an unexpected result.**
 But maybe your respected the request contract, and the code unit still gave you an unexpected result.
@@ -85,9 +82,7 @@ The most basic of basic bugs.
 
 The **fix is to respect the contract between the code units** (either change the contract of the provider, or change the client).
 
-> - Does your code work as expected, in the expected context ?  
->   - No -> Are the contracts between code units respected ?  
->     - Yes -> **Algorithm bug**
+![Algorithm bug](/assets/defects_taxonomy/04_algorithm_bug.svg)
 
 Your code units are calling each other nicely, but **in your algorithms some calculations or choices are wrong.**
 
@@ -101,8 +96,7 @@ I usually write those at a rate of a dozen per minute when I'm sober.
 
 **The fix is to implement the correct algorithm** d'oh !
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?
+![Question #03](/assets/defects_taxonomy/05_question_03.svg) 
 
 So first, congratulations, you actually wrote code that behaves as you think in the context you expect.
 If you're writing code in Javascript you're already part of the elite.
@@ -110,17 +104,12 @@ If you're writing code in Javascript you're already part of the elite.
 But you still have a problem.
 Is that because the context in which your code execute does not match your expectations ?
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - No -> Is the context valid ?
+![Question #04](/assets/defects_taxonomy/06_question_04.svg)
 
 Well your code executed in an unexpected context, but that does not mean this is the context's fault.
 Maybe you didn't think of all the legitimate situations out there in the real world ?
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - No -> Is the context valid ?  
->       - Yes -> **Incomplete algorithm bug**
+![Incomplete algorithm bug](/assets/defects_taxonomy/07_incomplete_algorithm_bug.svg)
 
 **The context is in an unforeseen but legitimate state.**
 
@@ -134,21 +123,12 @@ Example:
 
 **The fix is just to adapt your code to run in this legitimate context.**
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - No -> Is the context valid ?  
->       - No -> Is it due to invalid external data ?
+![Validation bug](/assets/defects_taxonomy/09_validation_bug.svg) 
 
 A lot of your code context comes from external sources: user inputs, external services, etc.
 You can't control everything that enters your context, and you can't figure out in advance every possible data coming from those external sources.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - No -> Is the context valid ?  
->       - No -> Is it due to invalid external data ?  
->         - Yes -> **Validation bug**
-
-So the problem is that **some invalid data made it into your execution context**.
+Sometimes the problem is that **some invalid data made it into your execution context**.
 
 Maybe the user typed some invalid input in a form, or the external service gave you a response that doesn't conform to the expected schema ?
 
@@ -170,11 +150,7 @@ Examples:
 
 **The fix is to make it impossible to call your code with invalid values**.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - No -> Is the context valid ?  
->       - No -> Is it due to invalid external data ?  
->         - No -> **State machine defect**
+![State machine defect](/assets/defects_taxonomy/10_state_machine_defect.svg)
 
 Sometimes no external sources are responsible for an unexpected context.
 
@@ -200,9 +176,7 @@ Examples:
 
 **The fix is to redesign the state machine**, either to make the unexpected states/transitions impossible, or to make them compatible with all your code units.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?
+![Question #06](/assets/defects_taxonomy/11_question_06.svg)
 
 So your code execute correctly in the expected context, validates its external inputs, and the state machine is flawless.
 
@@ -211,21 +185,13 @@ What can possibly still go wrong ?
 Well, one of the biggest enemies of developer is Time itself.
 Time is a fickle bitch.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - Yes -> Did things happen in the expected order ?
+![Question #07](/assets/defects_taxonomy/12_question_07.svg)
 
 With Time the problems usually fall into two categories:
 - things do not happen in the expected order
 - things takes too long to happen
 
-
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - Yes -> Did things not happen in the expected order ?  
->         - No -> **Scheduling defect**
+![Scheduling defect](/assets/defects_taxonomy/13_scheduling_defect.svg)
 
 Sometimes your state machine is well designed, but **the transitions do not occur in the order your expected**.
 
@@ -243,11 +209,7 @@ Example:
 **The fix is to make your code robust to out-of-order events.**
 Either explicitly rejects them (and protect the context) or find a way to accept them out of order.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - Yes -> Did things not happen in the expected order ?  
->         - Yes -> **(Time) Performance bug**
+![Time performance defect](/assets/defects_taxonomy/14_time_performance_defect.svg)
 
 So if everything happens in the right order and you still have a problem with time,
 the only explanation left is that your code works, but **it takes too damn long to execute**.
@@ -268,11 +230,7 @@ Example:
 
 **The fix is either to improve your code performance, or make your code resilient to bad performance.**
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?
->         - Yes -> **(Costs) Performance bug**
+![Cost performance defect](/assets/defects_taxonomy/16_cost_performance_defect.svg)
 
 Code might deliver value to the users but sometimes **the cost of the operation is too high**
 and exceeds the price your users are willing to pay for your services.
@@ -291,12 +249,7 @@ Example:
 
 Or, just increase your own prices (ideally, after jailing your customers into your product).
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?  
->         - No -> Can the user actually use the feature ?  
->           - No -> **Usability defect**
+![Usability defect](/assets/defects_taxonomy/17_usability_defect.svg)
 
 Your code works but almost nobody knows it exists.
 Those users who use your code struggle to make it fit their usage expectations.
@@ -305,24 +258,11 @@ One way or another, **your users don't use your code** as much as they could (or
 
 **The fix is probably a better design of your product, or just sometimes a better communication**.
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?  
->         - No -> Can the user actually use the feature ?  
->           - Yes -> Is the expected behavior useful ?
+![Product knowledge defect](/assets/defects_taxonomy/18_product_knowledge_defect.svg)
 
 The good news is, your code actually works.
 
 The bad news is, nobody cares.
-
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?  
->         - No -> Can the user actually use the feature ?  
->           - Yes -> Is the expected behavior useful ?
->             - No -> **Product knowledge defect**
 
 You did everything perfectly unfortunately **you misunderstood yours users' expectations.**
 
@@ -331,14 +271,7 @@ You did everything perfectly unfortunately **you misunderstood yours users' expe
 
 **The fix is to go back to understanding what your users need.**
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?  
->         - No -> Can the user actually use the feature ?  
->           - Yes -> Is the expected behavior useful ?
->             - No -> Is your product safe ?
->               - No -> **Safety defect**
+![Safety defect](/assets/defects_taxonomy/19_safety_defect.svg)
 
 Product safety includes a wide range of defects that could be the topic of another blog post.
 
@@ -364,68 +297,19 @@ So, while strictly speaking safety defects could indeed be classified as one of 
 their special dimension make them a class apart in my mind, and I can't NOT give them a special entry of their own in this list.
 </aside>
 
-> - Does your code work as expected, in the expected context ?  
->   - Yes -> Is the context conform to expectations ?  
->     - Yes -> Is there a problem with time ?  
->       - No -> Is there a problem with operation costs ?  
->         - No -> Can the user actually use the feature ?  
->           - Yes -> Is the expected behavior useful ?
->             - No -> Is your product safe ?
->               - Yes -> **No problem !**
+![No problem](/assets/defects_taxonomy/20_no_problem.svg)
 
 Well if you're here you have no problem. Why are you here ?
 
 ## Complete questions tree
 
-- Does your code work as expected, in the expected context ?
-  - No -> Are the contracts between code units respected ?
-    - No -> **Contract bug**
-    - Yes -> **Algorithm bug**
-  - Yes -> Is the context conform to expectations ?
-    - No -> Is the context valid ?
-      - Yes -> **Incomplete algorithm bug**
-      - No -> Is it due to invalid external input ?
-        - Yes -> **Validation bug**
-        - No -> **State machine defect**
-    - Yes -> Is there a problem with time ?
-      - Yes -> Did things not happen in the expected order ?
-        - No -> **Scheduling defect**
-        - Yes -> **(Time) Performance bug**
-      - No -> Is there a problem with operation costs ?
-        - Yes -> **(Costs) Performance bug**
-        - No -> Can the user actually use the feature ?  
-          - No -> **Usability defect**
-          - Yes -> The expected behavior is useful ?
-            - No -> **Product knowledge defect**
-            - Yes -> Is your product safe ?
-              - No -> **Safety defect**
-              - Yes -> **No problem !**
+![Complete questions tree](/assets/defects_taxonomy/21_complete_tree.svg)
 
 ## Defects taxonomy
 
 The final list of defects looks like this:
 
-**Algorithm bugs**
-- Contract bug
-- Algorithm bug
-- Incomplete algorithm bug
-- Validation bug
-
-**State machine defects**
-- State machine defect
-
-**Time defects**
-- Scheduling defect
-- (Time) Performance defect
-
-**Costs defects**
-- (Costs) Performance defect
-
-**Product defects**
-- Usability defect
-- Product knowledge defect
-
-**Safety defect**
+![Defects list](/assets/defects_taxonomy/22_defect_types.svg)
 
 The switch from "bugs" to "defects" is intentional.
 - **bugs** are trivial and you should aim to **never to deliver bugs to the user**.
@@ -453,17 +337,7 @@ is delivered to the user. **They cost a lot to fix**, sometimes they are even im
 **Each main category implies an order of magnitude in the defect complexity and cost.**
 Algorithms bugs are 10 times easier than State machine defects, which are 10 times easier than Time defects, etc.
 
-Algorithm bugs  
-*10 cost  
-State machine defects  
-*10 cost  
-Time defects  
-*10 cost  
-Costs defects  
-*10 cost  
-Product defects  
-*10 cost  
-Safety defect
+![Costs](/assets/defects_taxonomy/23_costs.svg)
 
 ### Impact on tools returns on investment
 
