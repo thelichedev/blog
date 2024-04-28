@@ -3,7 +3,7 @@ classDef bug fill:#FFECEC
 classDef nobug fill:#ECFFEC
 classDef yel fill:#ffffde,stroke:#aaaa33
 
-A(Does your code work as expected, in the expected context ?)
+A(Does the code work as expected, in the expected context ?)
 A -->|No| B(Are the contracts between code units respected ?)
 B -->|No| C(fa:fa-bug Contract bug):::bug
 B -->|Yes| D(fa:fa-bug Algorithm bug):::bug
@@ -21,9 +21,9 @@ K --->|No| O(Is there a problem with operation costs ?)
 O -->|Yes| P(fa:fa-bug Costs Performance defect):::bug
 O -->|No| Q(Can the user actually use the feature ?)
 Q -->|No| R(fa:fa-bug Usability defect):::bug
-Q -->|Yes| S(The expected behavior is useful ?)
+Q -->|Yes| S(The specified behavior is useful ?)
 S -->|No| T(fa:fa-bug Product knowledge defect):::bug
-S -->|Yes| U(Is your product safe ?)
+S -->|Yes| U(Is the product safe ?)
 U -->|No| V(fa:fa-bug Safety defect):::bug
 U -->|Yes| W(fa:fa-face-smile No problem !):::nobug
 

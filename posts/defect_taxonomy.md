@@ -2,299 +2,278 @@ Title: A taxonomy of software defects
 Date: 2024-03-04
 Tags: software quality
 
-Defects are a big part of software development.
-Those little or big critters keep crawling back into our beautifully crafted products.
+Defects play a significant role in software development.
+Those little critters keep crawling back into our beautifully crafted products.
 
-When I was a young programmer, each new defect was a new adventure, a new monster to be slain.
-After all those years doing this job, all defects look like all acquaintances.
+When I was a young programmer, each new defect felt like a new adventure, a new monster to be slain.
+After all those years doing this job, all defects look like all old acquaintances.
 
-> Why hello there mister validation bug, how are you this morning ? Long time no see since last week.
->- TheLicheDev, every Monday morning
-
-Learning to recognize types of defects is an important part of my software development practice.
+Recognizing different defect types is crucial in my software development routine.
 
 <!-- end-of-preview -->
 
-A quick google search for "software bug taxonomy" always gives me the same kind of high-level approach.
+A quick online search for "software bug taxonomy" yields to broad classifications, like functionality, performance, usability, security, compatibility.
+These groupings primarily address the type of expectations impacted by the nonconformance.
 
-Bugs are classified in general categories like "functionality / performance / usability / security / compatibility"
-which makes sense and can be useful in some context. These taxonomies classify more the type of expectations impacted by the nonconformance.
+Such taxonomies can help teams to manage the expectations of users or stakeholders,
+regarding defect resolution timelines and mitigation strategies.
 
-It can help your team to manage the expectations of other teams or users
-on the kind of delay to expect for a defect resolution, or the mitigation practices to enact after a defect.
+Management often responds to defects based on their perceived impact severity.
+Benign defects may be disregarded, while even minor errors resulting in significant financial or credibility losses can provoke exaggerated corrective actions.
 
-I feel this kind of high level classification does not allow to improve the defect prevention practices and tools though.
-My own mental framework is more oriented towards classifying the developer/team's "mistake" root causes.
+Yet in my opinion, focusing on the consequences of defects is insufficient for improving defect prevention practices and tools.
+My own approach leans more towards identifying the nature of the original developer mistake.
 
-I don't care if an off-by-one algorithm bug impacted only a minor functionality or introduced a big safety risk,
-the tools I use to prevent this defect from reaching the user are still the same, and letting these bug reach the user
-reflects just as badly on my development quality practices.
+Whether a bug affects minor functionality or poses a significant risk,
+the tools I use to prevent this defect from reaching the user remain consistent,
+and allowing any bug to slip through reflects just as badly on my development quality practices.
 
 <aside>
-Now, defects always have a wide range of root causes: the original code defect, but also the quality practices of the developer,
+Defects always have a wide range of root causes: the original code defect, but also the quality practices of the developer,
 the quality culture of the team, management pressure, etc.
 
-Here I focus only on the "technical root cause/code defect", because I'm only trying to evaluate and improve the quality practices of the developers.
+Here I focus only on the "technical nature" of the defect in code, because I'm only trying to evaluate and improve the quality practices of the developers.
 </aside>
 
-So how do you proceed to classify your newborn defect ?
+So how do we proceed to classify a defect ?
 
-You play a sort of little "guess who ?" game with your defect.
+We play a sort of little "guess who ?" game with the defect, asking a series of questions to pinpoint its type.
 
-You ask a series of questions that leads (hopefully) to an identified type of defect,
-and from here you can think about how best to react to this defect, which tool could catch this defect, etc.
+This idendification can guide our reponses to the defect, and help determine which tools could effectively catch similar issues in the future.
 
 ## Guess who ?
 
-Ask yourself these questions, in order:
+![Does the code work as expected, in the expected context?](/assets/defects_taxonomy/01_question_01.svg)
 
-![Question #01](/assets/defects_taxonomy/01_question_01.svg)
+Our code is basically an algorithm expecting to be executed in a specific context.
 
-Your code is basically an algorithm expecting to be executed in a specific context.
-As a developer, while you code, you think of the possible contexts and the expected results.
+When coding, we anticipate the possible execution contexts and the expected results.
 
-But writing a code that runs as you intend, is actually not guaranteed.
-Depending on your language and tools it might even be a prowess in itself.
+Yet, ensuring code behaves precisely as intended isn't always a given.
+Depending on language and tools used, it might even be quite an accomplishment in itself.
 
-![Question #02](/assets/defects_taxonomy/02_question_02.svg)
+![Are the contracts between code units respected?](/assets/defects_taxonomy/02_question_02.svg)
 
-Code units define request/response contracts with their client code.
+Code units establish request/response contracts with their client code.
 
-Some function might be unhappy with the way your code units are talking to it.
+Some function might be unhappy with the way our code units are calling it ?
+Maybe we respected the request contract, and the function still gave us an unexpected response ?
 
 ![Contract bug](/assets/defects_taxonomy/03_contract_bug.svg)
 
-Usually, **not respecting the request contract gives you an unexpected result.**
-But maybe your respected the request contract, and the code unit still gave you an unexpected result.
-
-Either it throws back an error to your face or, worse, it chooses to talk bad in return too.
+Usually, when contracts aren't adhered to, execution results in errors or unexpected behavior.
+I call this type of bug a **contract bug**.
 
 <aside>
 Note: part of the "compatibility" defects are in this categorie, when the problem is caused
-by a change in the contract with a dependency of my code (the other part is classified in "validation bugs").
+by a change in the contract with a dependency of our code (the other part is classified in "validation bugs").
 </aside>
 
 Examples:
-- You called `filterStuff('2021-01-01T00:00:00Z')` but `filterStuff` expects a date string in the `YYYY-MM-DD` format. `filterStuff` throws an error.  
-- You called `addStuff(5, 'toto')` but `addStuff` expects 2 numbers. `addStuff` strangely chooses to return the string `'5toto'` instead of throwing and error.
+- We called `filterStuff('2021-01-01T00:00:00Z')` but `filterStuff` expects a date string in the `YYYY-MM-DD` format. `filterStuff` throws an error.
+- We called `addStuff(5, 'toto')` but `addStuff` expects two numbers. `addStuff` strangely chooses to return the string `'5toto'` instead of throwing and error.
 
 The most basic of basic bugs.
 
-The **fix is to respect the contract between the code units** (either change the contract of the provider, or change the client).
+Resolving contract bugs involves **ensuring adherence to the contract between code units**, either by adjusting the contract of the provider or updating the client code accordingly.
 
 ![Algorithm bug](/assets/defects_taxonomy/04_algorithm_bug.svg)
 
-Your code units are calling each other nicely, but **in your algorithms some calculations or choices are wrong.**
+Our code units interact smoothly, but there may be **errors within our algorithms**.
 
 Examples:
-- The implementation of `addStuff(a, b)` is `return a * b`. Not adding up to expectations.
-- The implementation of `loopOverStuff(listOfStuff)` loops one stuff more than there is in `listOfStuff`. Off by one error !
+- The `addStuff(a, b)` function returns `a * b`. Not adding up to expectations.
+- The `loopOverStuff(listOfStuff)` function iterates one more time than the length of `listOfStuff`. Off by one error with undefined behavior !
 
 A slightly more evolved bug but still pretty basic.
-What I call "the stupid programmer mistake".
-I usually write those at a rate of a dozen per minute when I'm sober.
+What I call "stupid programmer mistakes".
+We tend commit these mistakes at a rate of a dozen per minute, particularly [when the developer is sober](https://xkcd.com/323/).
 
-**The fix is to implement the correct algorithm** d'oh !
+The solution lies in **implementing the correct algorithm** (uh).
 
-![Question #03](/assets/defects_taxonomy/05_question_03.svg) 
+![Is the context conform to expectations ?](/assets/defects_taxonomy/05_question_03.svg) 
 
-So first, congratulations, you actually wrote code that behaves as you think in the context you expect.
-If you're writing code in Javascript you're already part of the elite.
+So first, congratulations are in order. We actually wrote code that behaves as we think it does, in the context we expect.
+If we're writing code in C++ or Javascript, we're already part of the elite.
 
-But you still have a problem.
-Is that because the context in which your code execute does not match your expectations ?
+However, we still need to classify our defect.
 
-![Question #04](/assets/defects_taxonomy/06_question_04.svg)
+Could it be that the context in which our code executes doesn't align with our expectations ?
 
-Well your code executed in an unexpected context, but that does not mean this is the context's fault.
-Maybe you didn't think of all the legitimate situations out there in the real world ?
+![Is the context valid?](/assets/defects_taxonomy/06_question_04.svg)
+
+It's possible our code executed in an unexpected context, but that does not mean the context is at fault.
+
+Maybe we didn't think of all the legitimate real world scenarios ?
 
 ![Incomplete algorithm bug](/assets/defects_taxonomy/07_incomplete_algorithm_bug.svg)
 
-**The context is in an unforeseen but legitimate state.**
-
-Of course your code doesn't handle it well.
+This type of bug, which I call an incomplete algorithm bug, arises when **the context is in an unforeseen yet legitimate state**, causing our code to fail.
 
 Example:
-- Your code synchronize banking data. You read banking transactions in an external service.<br />
-  Some of the transactions (legitimately) have a total amount equal to zero.<br />
-  As you never expected that, some part of your code that calculate VAT rates executes a division by zero.<br />
-  After a few months you're stupefied to find `NaN` amounts in the VAT declarations of some of your customers !
+- Our code synchronize banking data, reading banking transactions from an external service.<br />
+  Some transactions legitimately have a total amount of zero.<br />
+  As we never anticipated that, our code that calculates VAT rates results in a division by zero.<br />
+  Months later, we're astonished to find `NaN` amounts in the VAT declarations of certain customers !
 
-**The fix is just to adapt your code to run in this legitimate context.**
+The remedy is simple: **adapt our code to function seamlessly within this legitimate context**.
 
-![Validation bug](/assets/defects_taxonomy/09_validation_bug.svg) 
+![Validation bug](/assets/defects_taxonomy/09_validation_bug.svg)
 
-A lot of your code context comes from external sources: user inputs, external services, etc.
-You can't control everything that enters your context, and you can't figure out in advance every possible data coming from those external sources.
+Much of our code context originates from external sources such as user inputs or external services.
+It's impossible to control every input or foresee all potential data from these sources.
 
-Sometimes the problem is that **some invalid data made it into your execution context**.
+Sometimes the problem comes from **invalid data infiltrating our execution context**.
 
-Maybe the user typed some invalid input in a form, or the external service gave you a response that doesn't conform to the expected schema ?
+Perhaps the user entered incorrect information into a form, or an external service provided a response that doesn't adhere to the expected schema ?
 
 <aside>
 Note: part of the "compatibility" defects are in this categorie, when the problem is caused
-by a change in the data returned by a dependency, that breaks the behavior of my code (the other part is classified in "contract bugs").
+by a change in the data returned by a dependency, that breaks the behavior of our code (the other part is classified in "contract bugs").
 </aside>
 
-Anyway the problem is that your code doesn't validate its context before trying to execute.
+Regardless of the cause, the problem lies in our code failure to validate its context before execution.
 
 Examples: 
-- Your customer is required to provide an amount value. Your UI input does not validate that the value typed is a number.<br />
-  Your code happily stores `NaN` values in your database.<br />
-- Your application use an external banking service to provide credit cards to your users.<br />
-  Your read the list of credit cards belonging to a specific customer in the external service.<br />
-  One day, the external service returns all the credit cards of all customers instead of just those belonging to the specified customer.<br />
-  Since you never validated that the returned credit card belong to the expected customer,
-  your application happily display the credit card of the all other customers, to each of your customers.
+- Our application requires users to input an amount value, but the UI doesn't validate whether the input is a number.<br />
+  Consquently, our code happily stores `NaN` values in the database.
+- Our application utilizes an external banking service to manage credit cards. <br />
+  It reads the list of credit cards belonging to a specific customer in the external service.<br />
+  One day, the service unexpectedly returns all the credit cards of all customers instead of just those belonging to the specified customer.<br />
+  Since our code never validated that the returned credit cards belong to the expected customer,
+  our application mistakenly displays all other customers' credit cards to each user.
 
-**The fix is to make it impossible to call your code with invalid values**.
+The solution is to **prevent our code from being invoked with invalid values**.
 
 ![State machine defect](/assets/defects_taxonomy/10_state_machine_defect.svg)
 
 Sometimes no external sources are responsible for an unexpected context.
 
-Your code can be seen as a giant state machine: 
-each code unit takes the current state (the context) and returns the new state (the context with some information updated).
+Consider our code as vaste state machine:
+each code unit takes the current state (context) and produces a new state (context with updated information).
 
-**Every state transition might be correctly implemented, but your state machine could still be wrong.**
-Basically, your units works in isolation, but they don't play nice together. They contradict themselves.
+Every state transition might be correctly implemented, but **our state machine might still be flawed.**
 
-- some transitions might bring the context to a new state that can't be handled properly by the rest of your code.
-- some transitions might undo the work of previous transitions, or prevent future transitions from working correctly.
+In essence, while our code units function in isolation, they don't play nice together.
+
+They contradict each other, leading to issues such as:
+- state transitions leading to new states that other parts of the code cannot handle properly.
+- transitions that undo previous work or hinder future transitions.
 
 Examples: 
-- In your system, banking transactions can be linked to receipt documents.<br />
-  These links are exclusives: a receipt document cannot be linked to multiple transactions.<br />
+- In our system, banking transactions can be linked to receipt documents, with these links being exclusives: a receipt document can belong to only one transaction.<br />
   Transactions can be soft-deleted, and re-activated.<br />
-  Up to now, transactions-receipts are preserved while the transaction is in a soft-deleted state.<br />
-  When a transaction is re-activated, its receipts are still linked to it.<br />
+  Up to now, receipts remained linked to soft-deleted transactions. When a transaction is then re-activated, it is still linked to its receipts.<br />
   Some users are complaining that the receipts linked to their soft-deleted transactions are not available to be linked to other transactions.<br />
-  You choose to unlink receipts when a transaction is soft-deleted, making them available to other transactions.<br />
-  Some other users are now complaining that their re-activated transactions are not linked to their receipts anymore, like they were previously.<br />
-  Good luck !
+  We choose to unlink receipts when a transaction is soft-deleted, to make them available for other transactions.<br />
+  Some other users are now complaining that their re-activated transactions are not linked to their receipts anymore, like they were before.
 
-**The fix is to redesign the state machine**, either to make the unexpected states/transitions impossible, or to make them compatible with all your code units.
+The solution lies in **redesigning the state machine** to either prevent unexpected states/transitions or ensure compatibility across all code units.
 
-![Question #06](/assets/defects_taxonomy/11_question_06.svg)
+![Is there a problem with time ?](/assets/defects_taxonomy/11_question_06.svg)
 
-So your code execute correctly in the expected context, validates its external inputs, and the state machine is flawless.
+So our code executes correctly in the expected context, validates its external inputs, and the state machine is flawless.
 
 What can possibly still go wrong ?
 
-Well, one of the biggest enemies of developer is Time itself.
-Time is a fickle bitch.
+Well, one of the biggest enemies of developers is Time itself.
 
-![Question #07](/assets/defects_taxonomy/12_question_07.svg)
+![Did things not happen in the expected order ?](/assets/defects_taxonomy/12_question_07.svg)
 
-With Time the problems usually fall into two categories:
+With Time, the problems usually fall into two categories:
 - things do not happen in the expected order
 - things takes too long to happen
 
 ![Scheduling defect](/assets/defects_taxonomy/13_scheduling_defect.svg)
 
-Sometimes your state machine is well designed, but **the transitions do not occur in the order your expected**.
+Despite a well-designed state machine, **transitions may not occur in the expected order**.
 
-As a consequence, either your code rejects a transition as invalid in the current state (you're lucky)
-or the transition is executed but leaves the context in an invalid, corrupted state (this is most likely).
+This can lead to two scenarios: either our code rejects a transition as invalid (we're lucky),
+or the transition executes but leaves the context in an invalid or corrupted state (more likely).
 
 Example:
-- Your application implements a webhook, that an external service can call to inform your system of updates on some invoice documents.<br />
-  Your application need to create or update the invoice documents in its database.<br />
-  Sometimes you receive an update event for an invoice, before receiving the create event for the same invoices.<br />
-  Because, network.<br />
-  Your code however doesn't know how to update an invoice that doesn't exists in its database.<br />
-  The update is lost. If you're lucky, at least the invoice is still created, you just don't have the last version.
+- Our application implements a webhook, that an external service calls to update invoice documents in our system.<br />
+  Occasionally, we receive an update event for an invoice, before receiving the create event for the same invoices.<br />
+  Because, network stuff.<br />
+  However, our code doesn't know how to update an invoice that doesn't exists in its database, resulting in the update being lost.<br />
+  If we're lucky, at least the invoice is still created, but we miss out on the latest version.
 
-**The fix is to make your code robust to out-of-order events.**
-Either explicitly rejects them (and protect the context) or find a way to accept them out of order.
+The solution is to **make your code robust to out-of-order events**.
+You can either explicitly reject them to protect the context or find a way to accept them out of order.
 
 ![Time performance defect](/assets/defects_taxonomy/14_time_performance_defect.svg)
 
-So if everything happens in the right order and you still have a problem with time,
-the only explanation left is that your code works, but **it takes too damn long to execute**.
+If everything occurs in the right order and we still have a problem with time,
+the only explanation left is that **our code takes too damn long to execute**.
 
-Most likely this results in user frustration as your product is so sluggish it becomes unusable.
-But it could also ends up with nasty errors as some calls to external services never resolve.
-Your application might even crash after piling up thousands of state transitions all waiting for some other stuff to happen.
-
-We've lost martian rovers to this stuff.
+Most likely this results in user frustration due to sluggishness rendering the product unusable.
+But it could also result in nasty errors as some calls to external services time out,
+and our application crashes under the weight of delayed processing.
 
 Example:
-- You implement an audit to check that no banking transactions are missing in your customers account.<br />
-  The algorithm is very clever and compare all transactions with their banking accounts balances history.<br />
-  It's all fun and games, until the audit runs on your production server.<br />
-  The server crashes.<br />
-  The audit's computation is taking so long that your server's request queue just fills up all the available memory.<br />
-  Then everything chokes to death.
+- Consider implementing an audit to ensure no banking transactions are missing from customer accounts.<br />
+  The algorithm is very clever and compare all transactions with their bank account balances history.<br />
+  It's all fun and games, until the audit runs on your production server. And the server crashes.<br />
+  The audit's computation is taking so long that your server's request queue just fills up all the available memory. Then everything chokes to death.
 
-**The fix is either to improve your code performance, or make your code resilient to bad performance.**
+The solution is to either **improve your code's performance or make it resilient to poor performance**.
 
 ![Cost performance defect](/assets/defects_taxonomy/16_cost_performance_defect.svg)
 
-Code might deliver value to the users but sometimes **the cost of the operation is too high**
-and exceeds the price your users are willing to pay for your services.
+While our code may provide value to users, sometimes **the cost of operations outweighs the price your users are willing to pay** for your services.
 
 Example:
-- You are designing a new generation of brushless motors drives.<br />
-  You choose to implement a bleeding edge current control algorithm in a FPGA chip.<br />
-  The FPGA required to run your algorithm cost 150$ a piece.<br />
-  The target market price for your drives was 100$.<br />
-  Oops.
+- We are designing a new generation of brushless motors drives, and opt to implement a cutting-edge current control algorithm in a FPGA chip.<br />
+  The FPGA required to run our algorithm cost 150$ each, while the target market price for our drives is only 100$.<br />
+  Hu-oh.
 
-**The fix is to reduce the operation costs** (surprise !):
-- improve performance
-- discard less valuable but resources hungry features
-- find cheaper providers for your external services
+The solution is to **reduce operation costs**, which may involve:
+- improving performance.
+- discarding less valuable but resource-hungry features.
+- finding cheaper providers for external services.
 
-Or, just increase your own prices (ideally, after jailing your customers into your product).
+Alternatively, we could **increase our own prices**, ideally after trapping customers into your product.
 
 ![Usability defect](/assets/defects_taxonomy/17_usability_defect.svg)
 
-Your code works but almost nobody knows it exists.
-Those users who use your code struggle to make it fit their usage expectations.
+Our code functions, but it's either unknown to most users or they struggle to use it effectively,
+resulting in it **not being utilized as much as it could be, if at all**.
 
-One way or another, **your users don't use your code** as much as they could (or even not at all).
-
-**The fix is probably a better design of your product, or just sometimes a better communication**.
+The solution likely involves **improving the design of your product or enhancing communication**
+to ensure users understand its capabilities and how to use it effectively.
 
 ![Product knowledge defect](/assets/defects_taxonomy/18_product_knowledge_defect.svg)
 
-The good news is, your code actually works.
+The good news is, our code actually works.
 
 The bad news is, nobody cares.
 
-You did everything perfectly unfortunately **you misunderstood yours users' expectations.**
+We did everything perfectly except **understanding the users' expectations.**
 
-- Some users use the feature once and never use it again.
-- Some users continue to request similar features, and don't seem to acknowledge that "your product already does this stuff".
+Some users may use the feature once and never return, while others keep requesting similar features without realizing they already exist within your product.
 
-**The fix is to go back to understanding what your users need.**
+To address this issue, we need to **revisit understanding what our users truly need** and ensure that our product aligns with those needs effectively.
 
 ![Safety defect](/assets/defects_taxonomy/19_safety_defect.svg)
 
-Product safety includes a wide range of defects that could be the topic of another blog post.
+Product safety encompasses a broad range of defects, including issues related to privacy, data/work loss, and physical safety.
 
-Here I will just say that I consider safety with a broad scope:
-- **privacy**: did you just leak your users personal data all over the internet ?
-- **data/work loss**: (psychological safety ?) can your user loose hours of their work and personal data just by clicking on a button without confirmation ?
-  (note: could be classified as a usability problem but data loss often cost a lot more to fix than usability or true accessibility,
-  and the psychological effect on the user are more that their safety expectations are not met, rather than usage frictions)
-- **physical safety**: well it doesn't apply to all software products, but sometimes a perfectly working product
-  can actually be dangerous to operate for the user, and cause physical harm, or even just undue stress.
-  And here I'm not talking about incidents caused by a software malfunction, but by an unsafe design of the product.
+**Privacy**: Did our product just leak our users' personal data online?
+
+**Data/work loss**: Can our users lose hours of work and personal data with a single click, without confirmation ?
+(While this could be classified as a usability problem, data loss often requires significant effort to fix and can have a severe psychological impact on users.)
+
+**Physical safety**: While not applicable to all software products, some may pose physical risks to users due to unsafe design, leading to potential harm or undue stress.
 
 <aside>
-Why is there a separate defect type for safety ?
-After all, the root causes of most safety defects are probably one of Algorithm bug/State machine defect/Usability defect.
+Why separate safety defects from other types?
 
-Yes, but in my experience, when a defect affects safety:
-- the link between the bug and the safety nonconformance is very hard to discover before its impact.
-- the consequences are usually much more disastrous (or have the potential to be).
-- the solutions can also be very hard to implement in the case of psychological or physical safety.
+While the root causes of safety defects may overlap with other defect types such as Algorithm Bugs, State Machine Defects, or Usability Defects, safety defects have unique characteristics:
+- The link between the bug and safety nonconformance is often challenging to identify before its impact.
+- The consequences of safety defects are typically more severe or have the potential to be.
+- Implementing solutions for safety defects, especially those related to psychological or physical safety, can be exceptionally challenging.
 
-So, while strictly speaking safety defects could indeed be classified as one of the preceding types of defects,
-their special dimension make them a class apart in my mind, and I can't NOT give them a special entry of their own in this list.
+Thus, while safety defects could technically fall under other defect types, the distinct nature of their resolution or mitigation warrants a separate classification.
 </aside>
 
 ![No problem](/assets/defects_taxonomy/20_no_problem.svg)
@@ -311,74 +290,73 @@ The final list of defects looks like this:
 
 ![Defects list](/assets/defects_taxonomy/22_defect_types.svg)
 
-The switch from "bugs" to "defects" is intentional.
-- **bugs** are trivial and you should aim to **never to deliver bugs to the user**.
-  Consider the presence of bugs in the product as a software development malpractice.
-  Unfortunately a lot of experimented developers still deliver trivial bugs in their day to day work.
-- **defects** are the real nonconformance problems. They come with their own complexity,
-  and require a real, constant prevention effort. They are never totally avoidable,
-  but a lot of practices can have a big impact on their occurrence rate.
+The intentional switch from "bugs" to "defects" underscores an important distinction:
+
+**Bugs are trivial issues that should ideally never reach the user.**
+Their presence in the product reflects a software development malpractice.
+Unfortunately a lot of experimented developers still deliver trivial bugs in their day to day work.
+
+**Defects, on the other hand, represent significant nonconformance problems.**
+They come with their own complexity and require constant prevention efforts.
+While they are never entirely avoidable, many practices can significantly reduce their occurrence rate.
 
 ### Not all defects have the same complexity, nor the same nonconformance or fixing costs
 
-The list above orders the defects from the most trivial to the most complex.
-From the cheaper to detect, fix and prevent, to the most expensive.
+It's crucial to acknowledge that not all defects are created equal in terms of complexity, or the costs associated with fixing or avoiding them.
 
-**Contract bugs** happen all the time in code, and **they cost next to nothing** since good development tools and practices should immediately catch them.
-Most of them are obvious if the developers at least make the effort to actually run their code just once before delivery.
+**Contract bugs** are frequently encountered during development, but they typically cost next to nothing to address.
+With robust development tools and practices, these bugs are often immediately caught, and their resolution is straightforward.
+In fact, most of them are glaringly obvious if developers take the time to run their code before delivery.
 
-**State machine defects** are a good example of bugs that are regularly caught in peer review.
-Developers unfamiliar with a code unit, or with an insufficient quality practice, make modifications to the code
-that will break other parts of the state machine, and **an expert need to intervene to explain the problem**.
+**State machine defects**, on the other hand, are often identified during peer reviews.
+Developers who are unfamiliar with a code unit or lack sufficient quality practices may inadvertently make modifications that disrupt other parts of the state machine.
+Addressing these defects often requires intervention from an expert to explain the issue, making them more complex and costly to resolve compared to contract bugs.
 
-**Product knowledge defects** regularly happen in product teams, and they are often found (long) after the expected feature
-is delivered to the user. **They cost a lot to fix**, sometimes they are even impossible to fix and they just stay in the product.
+**Product knowledge defects** are commonly encountered in product teams, and they may not be discovered until long after the feature is delivered to the user.
+These defects can be incredibly costly to fix, and in some cases they may even be impossible to rectify, remaining in the product indefinitely.
 
-**Each main category implies an order of magnitude in the defect complexity and cost.**
-Algorithms bugs are 10 times easier than State machine defects, which are 10 times easier than Time defects, etc.
+In essence, **each main category of defects implies an order of magnitude difference in terms of complexity and cost**.
+For instance, algorithm bugs are typically ten times easier to resolve than state machine defects, which are themselves ten times easier than time defects, and so on.
+Understanding this hierarchy can help prioritize efforts to prevent and address defects effectively.
 
 ![Costs](/assets/defects_taxonomy/23_costs.svg)
 
 ### Impact on tools returns on investment
 
-This cost scaling effect is important when you evaluate defect prevention tools.
-Each of these tools has its own setup and operation costs, nothing is free in our work.
+Each tool comes with its own setup and operational costs, and it's essential to consider these factors when assessing their effectiveness.
 
-**Defect prevention tools should have a good return on investment** regarding their cost and the cost of the defects they can catch.
+**Defect prevention tools should offer a good return on investment** based on both their cost and their ability to catch defects. Here's how the equation typically works:
+- A tool that only catches trivial defects but has high operational costs may not be worthwhile.
+  The investment in operating the tool might outweigh the benefits gained from catching relatively insignificant defects.
+- Conversely, a tool with high operational costs but the ability to catch complex defects can often be justified.
+  The value derived from preventing major issues can outweigh the costs associated with using the tool.
 
-- A tool that only catches the most trivial tools but has high operation costs is of little interest.
-- Using a tool with a high operation cost but able to catch the most complex defects can be justified.
-
-**The best tools have a low operation costs in regard to the costs of the defects it catches.**
+Ultimately, the best tools strike a balance by having **low operational costs relative to the costs of the defects they catch**.
 
 ## How to use this taxonomy
 
-On a superficial level, this defect taxonomy shows **everything that can go wrong in my day to day work**.
+At a glance, this defect taxonomy serves as a comprehensive overview of potential challenges in day-to-day software development.
 
-Software development is inherently complex (even when the developers don't add unrequired complexity themselves)
-and the range of defects span multiple levels of conceptual complexity: from the humble algorithm bug
-to the high level misunderstanding of the user's expectations, going through all type of integration and performance defects.
+Software development inherently entails complexity (even when the developers don't add unrequired complexity themselves),
+spanning various levels of conceptual intricacy, from simple algorithm bugs to profound misunderstandings of user expectations,
+encompassing integration and performance issues.
 
-### Evaluate and choose the right defect detection tools
+### Selecting effective defect detection tools
 
-As a software developer, you have a set of tools at your disposition to detect and prevent defects.
-Each tool has its strengths and costs, its scope of application.
+Software developers have access to a range of tools for detecting and preventing defects, each with its strengths, costs, and scope of application.
 
-Classifying the defects you find in your delivery allow to **identify the tool best adapted to prevent them**.
+By categorizing the defects encountered during development, it becomes possible to pinpoint the most suitable tool for prevention.
 
-Ask yourself why your current tools didn't catch the defect ?  
-Do you have a hole in my net that should be covered by a new tool ?  
-Did you miss a step in my usage of my current tools ?  
+Reflect on why current tools failed to identify certain defects.
+Is there a gap in our toolkit that requires a new tool ?
+Have we overlooked a crucial step in utilizing existing tools effectively ?
 
-### Evaluate your quality approach
+### Assessing our quality approach
 
-It also allows you to **evaluate your current level of delivery quality**.
+Furthermore, this taxonomy facilitates an evaluation of our current delivery quality.
 
-Not all bugs are equals, some are really trivial and should never make it into the delivered product.
-
-Others are more complex, and require hard design choices to be contained.
-
-Some are even consequences of the product design practice of my team and can totally escape my control.
+Recognize that not all defects are equal; while some are trivial and should never reach the final product,
+others demand significant design considerations or stem from broader product design practices beyond our immediate control.
 
 ## Conclusion
 
