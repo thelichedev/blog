@@ -1,0 +1,47 @@
+flowchart TD
+classDef bug fill:#FFECEC
+classDef nobug fill:#ECFFEC
+classDef yel fill:#ffffde,stroke:#aaaa33
+
+C(fa:fa-bug Contract bug):::bug
+D(fa:fa-bug Algorithm bug):::bug
+G(fa:fa-bug Incomplete algorithm bug):::bug
+I(fa:fa-bug Validation bug):::bug
+J(fa:fa-bug State machine defect):::bug
+M(fa:fa-bug Scheduling defect):::bug
+N(fa:fa-bug Time Performance defect):::bug
+P(fa:fa-bug Costs Performance defect):::bug
+R(fa:fa-bug Usability defect):::bug
+T(fa:fa-bug Product knowledge defect):::bug
+V(fa:fa-bug Safety defect):::bug
+W(fa:fa-face-smile No problem !):::nobug
+
+subgraph FF [Safety defects]
+  direction LR
+  V
+end
+subgraph EE [Product defects]
+  direction LR
+  R
+  T
+end
+subgraph DD [Cost defects]
+  direction LR
+  P
+end
+subgraph CC [Time defects]
+  direction LR
+  M
+  N
+end
+subgraph BB [State machine defects]
+  direction LR
+  J
+end
+subgraph AA [Algorithm bugs]
+  direction LR
+  C
+  D
+  G
+  I
+end

@@ -2,70 +2,73 @@ Title: Defect prevention tool: Static Types
 Date: 2024-03-05
 Tags: software quality, tools
 
-Now that I've explained my two main evaluation frameworks for software development quality,
-I can start to evaluate the most common defect prevention tools.
+Now that I've explained my two main [evaluation](/team_quality_maturity.html) [frameworks](/defect_taxonomy.html) for software development quality,
+it's time to delve into the assessment of prevalent defect prevention tools.
 
-Each tool has its strengths but also its costs, some of these tools can in fact cost a lot more than most teams expect.
+While each tool exhibits unique strengths, it's crucial to acknowledge the associated costs, some of which may surpass initial expectations.
 
-Knowing the strength of a tool will allow the team to invest in the best tools 
-to catch delivery or regression defects before delivery, and 
-to ensure a good coverage of the defects taxonomy, at an optimal cost.
+Understanding the potency of these tools empowers teams to invest in solutions that efficiently detect delivery or regression defects,
+ensuring comprehensive coverage of the defects taxonomy at an optimal cost.
 
-Let's start with the first one: **Static Types**.
+Let's begin our exploration with one of the foundational tools: **Static Types**.
 
 <!-- end-of-preview -->
 
 ## What Static Types ?
 
-I've only worked professionally with C/C++ (for 10 years) and Typescript (for 2 years), a bit with Java (on Android) for a few years.
+Despite ongoing debates surrounding type systems—whether static or dynamic, strongly or weakly typed—every software project inherently adopts a type system of some kind.
 
-These are the kind of Static Types tools I know the best. There are others, more evolved Statically Typed languages (Ada, FORTRAN, Haskell, OCaml, Elixir, etc.)
-I've read books about them, I've played with some on personal projects, but I've never seen a professional team use them in my life.
+In my professional experience spanning a decade with C/C++, followed by two years with TypeScript, and intermittent exposure to Java (primarily on Android), 
+I've encountered different implementations of static type systems. 
 
-There is also a whole debate on type systems, between static or dynamic types, strongly or weakly typed languages, etc.
-In the end every software project has a type system of some sort.
+There are others, more advanced Statically Typed languages (Ada, FORTRAN, Haskell, OCaml, Elixir, etc.)
+I've read books about them, I've played with some on personal projects, but I've never used them on a professional project.
 
-Here **I'm only considering the most used form of "static types" systems a-la Java/C++/Typescript**.
-Since they seem to represent 95% of our industry practices.
+However, for the purpose of this discussion, **I'll focus on the static type systems prevalent in languages such as Java, C++, and TypeScript,**
+as they constitute the primary tools used in a majority of software development endeavors. 
 
 ### Expert or Average usage ?
 
-There is a ton of literature on how best to use your types system to develop software.
+There is a plethora of literature on optimal utilization of type systems, including sections on best practices and advanced techniques. 
+However, there's often a notable absence of guidance on common pitfalls or anti-patterns (which already tells us a lot about these tools and the damage they can yield in innocent hands).
 
-Each language documentation has a section on best practices, advanced usages, etc. 
-Most of them lack an anti-pattern or common pitfall section though (which already tells us a lot about these tools and the damage they can yield).
+In our exploration, it's crucial to differentiate between two distinct modes of usage:
 
-I feel that in the following discussion, there is a need to distinguish between two different types of usage:
-- the ideal, "best practices" usage by a rhetorical team of infinitely wise developers.
-- the concrete, everyday usage by a team of real world developers, including some inexperienced members, and some moth programmers.
+1. **Ideal, "Best Practices" Usage**: utilization by a hypothetical team of impeccably skilled developers,
+implementing solutions with flawless adherence to established norms and principles.
 
-I'm mainly interested in the concrete usage, and the advantages an average "real life" team can get from these tools.
+2. **Concrete, Everyday Usage**: usage out there in the real-world, where teams consist of a diverse mix of experience levels,
+including relative novices or [moth programmers](/moth_programmer.html).
 
-I'm sure a team of experts programmers could achieve more with static types, at a lower costs, but let's be realistic: 
-most teams are not comprised only of expert programmers (most would even be happy to have just one).
+I'll primarily focus on the latter, and the tangible advantages an average "real life" team can derive from static type systems.
 
-So in the following discussion **I'll focus on the concrete usage I've seen in the field**,
-and add remarks where I see fit if the concrete usage differs from the ideal usage.
+I'm sure a team of experts programmers might undoubtedly achieve more with these tools, at a reduces costs, but it's important to maintain a realistic perspective.
+The reality is that most teams are not composed solely of experts;  in fact, many would be fortunate to include just one.
+
+Therefore, **I'll focus on the concrete usage I've seen in the field**,
+with occasional insights where I think concrete usage differs from ideal usage.
 
 ## Quality evaluation grid
 
-Obviously static types are a developer's tool that only impacts code before delivery:
-most static types systems cease to exist at runtime.
 
-Static Types are designed to catch bugs during development, and before delivery in your CI chain for example.
+While literature on Type Driven Design offers tantalizing insights into this realm, the practical application within real-world development environments often falls short. The discrepancy between theory and practice underscores the importance of considering the prevailing maturity levels and skillsets within development teams when evaluating the potential impact of static types on product discovery.
 
-As such they are ideally placed on the delivery axis, most importantly they catch bugs before they can impact users.
+Obviously static types are a developer's tool that only impacts code before delivery, as most static types systems cease to operate at runtime.
 
-Static types are well known for catching defects in new code, but also for providing a regression safety net on the whole project.
+Static Types are designed to detect bugs during development, and prior to delivery—in your CI chain for example.
 
-Can static types discover value missing in the product ?
+As such they are ideally positioned on the delivery axis, most importantly preempting bugs before they can impact users.
 
-Due to the poor discipline and expertise of most teams using types in professional projects, the answer is no.
+Static types are well known for catching defects in new code, but also for providing a regression safety net across entire projects.
 
-I've never seen a project where the attentive study of the types system lead to a product discovery.
+However, can they extend beyond bug detection to uncover value gaps within the product itself?
 
-I've read books, however, on Type Driven Design, that made me think that it should be possible, in theory.
-But I've never worked on a team with this level of maturity.
+In theory, the principles of Type Driven Design suggest such a possibility.
+
+Yet, in my professional experience this potential remains largely untapped,
+due to the poor discipline and expertise of most teams using types in professional projects.
+
+I've yet to witness a project where meticulous exploration of the type system led to meaningful product discoveries.
 
 |                        | delivery failures | regression failures | missing value |
 |:-----------------------|:-----------------:|:-------------------:|:-------------:|
@@ -79,98 +82,107 @@ But I've never worked on a team with this level of maturity.
 
 ### Algorithm bugs
 
-**Contract bugs** are what the Static Types are designed for.
+![Algorithm bugs](/assets/defects_taxonomy/algorithm_bugs.svg)
 
+**Contract bugs** are what the Static Types are designed for.
 They are probably the fastest tool to catch those bugs, and if your project is fully typed, they will provide a good constant coverage.
 
 Unfortunately they are also not sufficient to catch all those defects.
+While they excel at ensuring data shapes conform to predefined contracts, they fall short in enforcing more nuanced constraints or invariant properties.
 
-Widely used types systems are not capable to enforce type checks beyond the basic data shape.
+Consider the following scenarios:
 
-Most notably they can't enforce advanced or invariant properties in code.
-- Want to enforce that in `addYear(dateString : string, count : number)`, `dateString` should use a `YYYY-MM-DD` format ? Good luck
-  (feasible in Typescript but I've never actually seen a team bother with that)
-- Want to enforce that the `sort(list)` function return a list comprised of exactly the same values as its argument ? Can't do that.
-- Want to enforce that `min <= max` in `{ min: integer, max: integer }` ? Nope (or not easily)
+**Complex Data Shape Enforcement**: Despite the flexibility of modern typed languages like TypeScript, enforcing intricate data shape requirements, such as date formatting or list integrity, remains a challenge. 
+While theoretically feasible, practical implementation is rare due to its complexity and the lack of familiarity among development teams.
+- Want to enforce that in `addYear(dateString : string, count : number)`, `dateString` should use a `YYYY-MM-DD` format ?
+- Want to enforce that the `sort(list)` function return a list comprised of exactly the same values as its argument ?
+
+**Invariant Property Enforcement**: Enforcing constraints like `min <= max` or delineating the behavior of unique identifiers like `userId` is not come easy.
+While again conceivable, achieving such granular enforcement requires considerable effort and often exceeds the expertise of most developers.
+- Want to enforce that `min <= max` in `{ min: integer, max: integer }` ?
 - Want to say that `userId` is a `string` but you can't do stringy stuff with it since, well, in fact it's an unique identifier, and
-  you can only compare it with another `userId` ? Again, feasible, but complex and most teams don't bother with this.
+  you can only compare it with another `userId` ?
 
-Static types suck at catching **Algorithm bugs**
+Static types, while invaluable for catching contract bugs, actually suck at identifying **Algorithm bugs** within code.
 
 `function add(a : number, b : number) : number { return a * b; }` is perfectly fine for types, and also totally wrong.
 
-Static types are totally unable to catch most algorithm bugs: off-by-one errors, rounding errors, inverted conditions...
+Static types inherently struggle to identify algorithmic bugs, such as off-by-one errors or inverted conditions, which can evade type checking altogether.
 
 The most common joke about this is the famous sentence "If it compiles it works". Which, of course, is total bullshit.
-
 (Not sure the joke is not lost on most static types enthusiasts though).
 
 Static type are almost useless for **Incomplete algorithm bugs** too.
 
-At best they can detect missing check conditions in a `switch` statements but that's really cutting edge stuff
-(lol who still use `switch` statements in 2024 ?).
+While static types may flag missing check conditions in certain constructs like `switch` statements (lol who still use `switch` statements in 2024 ?),
+their efficacy diminishes in complex scenarios where the full spectrum of legitimate values is not adequately considered.
 
-And that's if you thought about all the legitimate context values anyways.
+The absence of static types at runtime precludes their usage for preventing **Validation bugs**,
+leaving developers reliant on types integration with auxiliary tools like JSON-Schema validation or custom runtime checks.
+In an era dominated by interconnected software systems, this is totally archaic.
 
-If you didn't know about those legitimate values, types can do nothing for you.
-
-Static type carefully avoid helping you with **Validation bugs**, by not being present at runtime.
-
-At best some open source developer built a JSON-Schema validation tool that will generate static types to use in your code,
-but Static Types tools themselves rarely bother actually doing this work.
-
-In the age of the communicating software system, this is totally archaic.
-
-**Conclusion: Static types only catch basic (data shape) contract bugs**
+In essence, **static types primarily serve as guardians against fundamental contract bugs** pertaining to data shape conformity.
+However, their utility wanes when confronted with the more complex challenges posed by algorithmic intricacies, incomplete logic, and runtime validation.
 
 ### State machine defects
 
+![Algorithm bugs](/assets/defects_taxonomy/state_machine_defects.svg)
+
 In theory, with Type Driven Design, types can help you design a robust state machine.
 
-In practice, I've never seen a team reach this level of practice.
+However, in practice,I've never seen a team reach this level of practice.
 
-Most types are built too permissive by default, union types are a relatively new and advanced concept for most developers,
-and the use of automatically-generated, globally-shared, all-inclusive types throughout the whole code base,
-prevent any serious state machine design based on types.
+Most statically typed languages default to permissive default types, lacking the granularity required for robust state machine representations.
+For example, union types are still unfamiliar terrain for many developers.
+
+The widespread adoption of automatically-generated, globally-shared types throughout codebases hampers attempts at nuanced state machine design.
+These all-inclusive types, while expedient for generic usage, lack the specificity necessary for intricate state transitions and constraints.
 
 ### Time defects
+
+![Algorithm bugs](/assets/defects_taxonomy/time_defects.svg)
 
 Guess what ? Yup. Useless.
 
 ### Costs defects
 
+![Algorithm bugs](/assets/defects_taxonomy/cost_defects.svg)
+
 Useless ? Yup yup yup.
 
 ### Product defects
 
-At the very best types can help document the product value implemented by the code.
+![Algorithm bugs](/assets/defects_taxonomy/product_defects.svg)
+
+At the very best types can serve as a rudimentary means of documenting the product value embedded within the code.
 
 In practice, you can't expect developers that don't know how to express business value in their code,
-to fare much better in their types. Since they don't even identify their types as an opportunity to document the product.
+to fare much better in their types. Since they won't even identify their types as an opportunity to document the product.
 
 ### Safety defect
 
-Advanced type systems can provide safety checks on basic operations (Ada comes to mind).
+![Algorithm bugs](/assets/defects_taxonomy/safety_defects.svg)
 
-In my experience though, Static Types tools have almost no impact on safety-related defects.
-Every study I've seen on the subject seem to confirm this. Types give no safety-related advantages.
+While advanced type systems, such as those found in languages like Ada, have the potential to provide safety checks on basic operations,
+the practical impact of static types on safety-related defects remains limited.
+
+Despite theoretical assertions, empirical studies consistently highlight the negligible safety-related advantages conferred by static type systems.
+
+Static types offer scant mitigation against safety defects within software projects.
 
 ## Static types feedback speed
 
-For a defect prevention tool, feedback speed is an important quality.
+For a defect prevention tool, feedback speed holds significant importance.
 
-Of all the common tools, Static Types probably have the fastest feedback.
+Among the array of common tools, Static Types stand out for their rapid feedback capabilities.
 
-Most modern IDE now propose integration with the types checker, allowing for immediate feedback
-as the code is written, with no need to wait for a full compilation cycle.
+Most modern IDE seamlessly integrate with type checkers, facilitating immediate feedback as code is written, eliminating the need to wait for a full compilation cycle.
 
 ## Static Types cost
 
-In some way, the cost of Static Types could be seen as null. Most software projects use a unique fixed programming language,
-and most languages are either statically/strongly typed or not.
-
-So most developers will never "feel" the cost of static types, unless they switch job (most go to work on another project in the same language anyway),
-or somehow the language used for they everyday project changes.
+The cost associated with static types may not always be readily apparent, particularly for developers having spent their entire careers in projects utilizing a single,
+statically typed programming language.
+The true impact however, is often underestimated by many in the development community.
 
 I've started my career with 10 years of statically types languages, ending with some pretty heavy Object Oriented Programming code
 (or as I like to call it: "Classes Oriented Programming").
@@ -179,66 +191,58 @@ Then I switched to dynamically typed languages. Now I'm coming back (under dures
 
 I've seen both sides of the coin.
 
-The cost of static types is real. And probably greatly underestimated by most developers. (Again, many lack references for a real comparison).
-
-**First there is the tooling cost**: most of those tools lead to a higher building cost for the code.
+**First there is the tooling cost**: most of those tools introduce significant overhead in terms of tools maintenance and build time.
 
 This could seem to be negligible in our day and age, but this has a big impact on all the ecosystem:
-- first build time are often big (making systematic "clean slate" approaches less practical)
-- refresh/reload times are greatly impacted (eg for Unit Tests).
-- confidence in the version of code executed during development is reduced (Did my compiler see my codes changes ? Had it finished compilation when I did my last exploration ?)
-- CI execution times and prices increase greatly.
-- deployment delays can also rise sensibly, increasing the roundabout time for hotfixes etc.
+- **increased build times overhead**, inducing a loss of focus as the developers wait for code compilation to complete.
+- it also leads to the heavy use of compilation caches, with the inherent **confidence issues** (Did my compiler see my codes changes ? Had it finished compilation when I did my last exploration ?)
+- which combine with **increased reload times** to result in slower development cycles as the developers develop full-reload/cache-clean habits to make sure they run the last version of the code.
+- commpilation-intensive workflows also **inflate CI/CD execution durations**, prolonging deployment cycles and hindering collaboration on pull requests, and the swift dissemination of hotfixes.
 
-Having introduced Typescript in my team's CI/CD chain during the past years, I can tell you that the work involved to keep everything working as fine as before,
-and the increase in CI and CD times and costs, were really a big deal. Today most of our CI jobs spend more time compiling Typescript than actually running tests.
+Drawing from personal experience with integrating TypeScript into CI/CD pipelines, the tangible repercussions of static type adoption became apparent.
+The effort invested in maintaining pipeline stability amidst increased compilation times, coupled with the resultant escalation in CI/CD execution durations and associated costs, underscored the substantial burden imposed by static type tooling.
+Today most of our CI jobs spend more time compiling Typescript than actually running tests.
 
-**Second there is the development cost**, and most notably the price of the complexity introduced by static types.
+**Secondly, there's the development cost**, notably the complexity introduced by static types.
 
-You see, most Static Types systems start out fine and simple. But then, as the developers require always more features, the complexity creeps in.
-[Most types systems end up Turing-complete](https://github.com/microsoft/TypeScript/issues/14833).
+You see, most Static Types systems start out fine and simple. But then, as the developers require always more functionality, the complexity creeps in.
+Ironically, [many type systems ultimately become Turing-complete](https://github.com/microsoft/TypeScript/issues/14833),
+enabling developers to write programs within the type system itself, complete with loops and conditionals.
 
-Which, in simple words, means the developers can write programs in types. With loops, conditional and all this shit.
+However, these programs in types world have little to no value for customers as static types typically vanish at runtime.
 
-Mind you, these programs in the types-word have mostly no value to the customers. They "do" nothing.
-They would be hardly pressed to, since most Static Types cease to exist at runtime.
+Enthusiastic developers may invest significant time fooling around with the type system, creating elaborate constructs in the name of "type safety",
+while delivering zero customer value.
 
-This means that enthusiastic developers can spend A LOT of time fooling around with the type system,
-creating monstrosities all in the name of "type safety", and meanwhile delivering zero value to the customers.
+I've witnessed this phenomenon frequently. Static type systems lack guardrails, allowing developers to indulge in excessive complexity without tangible benefits.
 
-I've seen this. A lot. There are no guardrails for mad developers in types systems.
+Another common cost is the added complexity of type hierarchies and coupling. Untyped languages typically rely on function call hierarchies,
+but static types introduce in addition complex type hierarchies (all the usual interfaces/implementations, inheritance, factory of factory of hammer bullshit)
+and coupling mechanisms (let's use a tool to derive types from our database schema, then let's make those whole types global and use them everywhere in all our modules).
 
-Another very common cost is the additional complexity of the types hierarchy, and the coupling that comes with it.
+Even in contract-oriented type systems like TypeScript, poor practices prevail, perpetuating the proliferation of tangled type hierarchies and coupling.
 
-Un-typed languages have only one kind of hierarchy and coupling: the function call hierarchy. Functions depends on each other at runtime and that's it.
+**Thirdly, there's a significant opportunity cost:** static type systems can prohibit the implementation of certain highly reusable code patterns.
 
-With static-types, most of the time complex types hierarchies are introduced (all the usual interfaces/implementations, inheritance, factory of factory of hammer bullshit),
-and modules can become coupled by sharing global types (let's use a tool to derive types from our database schema, then let's make those whole types global and use them everywhere in all our modules).
+While one might argue that code patterns impossible to express in, say, TypeScript, might be inherently complex and difficult to maintain, my experience suggests otherwise.
+Many invaluable software composition patterns become impractical or outright impossible to implement with static types.
 
-Even in contract-oriented types systems like Typescript, all the traditional types bad practices are still largely dominant.
+For instance, TypeScript documentation explicitly discourages [Point-Free Programming](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#point-free-programming),
+citing poor support within the language. Similarly, functional wrapper composition suffers from limited support.
 
-**Third, there is a big opportunity cost**: static types systems make it impossible to write some pattern of highly re-usable code.
+Teams reliant on static types often find themselves constrained, unable to employ these powerful programming styles.
+Consequently, developers may remain unaware of these patterns, further limiting their toolkit for designing maintainable code.
 
-Now, you might say that a program that can't be written in say, Typescript, is probably hard to maintain anyway, so it's actually a good feature of static types.
+This limitation stands in stark contrast to the purported goal of static types to enhance maintainability.
+In reality, static types can inadvertently stifle developers' productivity and hinder the implementation of highly maintainable code.
 
-But in my experience, there are a lot of really useful patterns of software composition that are made next to impossible with static types.
+A prime example is statically typed dependency injection tools, which often devolve into maintenance nightmares.
+Meanwhile, patterns like functional wrapper composition, known for their maintainability benefits,
+become nearly impossible to implement within the confines of static types, perpetuating a cycle of limited innovation and constrained code design.
 
-For example, Typescript documentation cite [Point Free Programming](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes-func.html#point-free-programming)
-as a programming style that is ill supported, and best avoided in Typescript.  
-Functional wrappers composition is another one.
-
-Teams working with static types are condemned never to use these kind of programming styles, to the point that most of their developers
-have no idea they exists, and have never seen a code base written in these styles.
-
-It is counter intuitive for tools that aim at improving maintainability, but I see it in my work everyday: 
-static types limit the developers ability to design maintainable code.
-
-The best examples are statically typed dependency-injection tools. They are all a maintenance nightmare.
-Highly-maintainable dependency-injection patterns, like functional wrappers composition, are all but impossible to write with static types,
-and totally unknown to developers used to working with static types.
-
-**Overall I'd rate static types cost as high**, amongst the highest of the common defect prevention tools I've used in my professional life,
-with **a big risk factor**, in that they require a strong expertise and team discipline in order to maintain their cost low (and most teams lack exactly that).
+**Overall, I'd rate the cost of static types as high,** ranking amongst the highest among the common defect prevention tools I've encountered in my professional career.
+This assessment is compounded by **a significant risk factor**: static types necessitate a high level of expertise and team discipline to mitigate their associated costs effectively
+—a proficiency that many teams lack.
 
 ## Conclusion
 
@@ -258,10 +262,10 @@ Defects taxonomy coverage:
 |:--------------------------|:------------------|
 | **Algorithm bugs**        | only basic Contract bugs |
 | **State machine defects** | - |
-| **Time defects** | - |
-| **Costs defects** | - |
-| **Product defects** | - |
-| **Safety defect** | - |
+| **Time defects**          | - |
+| **Costs defects**         | - |
+| **Product defects**       | - |
+| **Safety defect**         | - |
 
 As we can see Static Types globally suck at finding but the most basic of basic bugs.
 
@@ -271,22 +275,22 @@ Cost: **high, with high maintenance risks**
 
 As I hope is made evident, **Static Types are in fact a poor defect prevention tool**.
 
-Sure, they are the best tool to prevent basic Contract bugs, but other tools (automated tests) can do that too, with a negligible speed/cost difference.
+While they excel at catching basic contract bugs, other tools like automated tests can do that too, with minimal differences in speed and cost.
 
-And, let's be honest, Contract bugs are like, the dumbest and cheapest of all the defects that afflicts software projects.
-And the easiest to fix.
+Let's face it: contract bugs are often the simplest and cheapest defects to address in software projects.
+They're the low-hanging fruits that can be easily picked.
 
-I've often felt, that the belief that Static Types allow a developer to deliver "working code", is a sign of a
-**very naive view of the nature of software defects**, and of the difficulty of delivering working product value.
+However, the belief that static types alone ensure the delivery of "working code" reflects 
+**a somewhat naive understanding of software defects** and the complexities of delivering valuable products.
 
-Sure it's useful to have a clean code base devoid of basic bugs, in order to focus on more complex defects, but again, 
-**other tools provide a better defects coverage at a similar cost**.
+Certainly, having a clean code base free of basic bugs is beneficial, allowing developers to focus on tackling more intricate issues.
+But there are alternative defect prevention tools that offer better coverage at a similar cost.
 
-If you factor in the high probability that **the types system will be afflicted by the same bad practices as production code**
-(over-design, complexity, etc.), you can see the types system as another opportunity to shoot your maintainability in the foot.
+Moreover, there's a real risk that **static type systems can fall victim to the same bad practices as production code**
+—over-design, complexity, and so on— you can see the types system as another opportunity to shoot your maintainability in the foot.
 One that has absolutely no value whatsoever for your customers.
 
-In my professional experience, the teams that performed worst on delivery quality were definitely the ones working on statically typed OOP code bases.
-Most of these code base had become totally unworkable and sclerotic under the weight of a poorly designed types hierarchy.
+In my professional experience, the teams working on statically typed OOP codebases often struggled the most with delivery quality.
+Many of these projects suffered from unmanageable code bases burdened by poorly designed type hierarchies.
 
-And ironically, despite their heavy usage of static types, they were plagued with a lot of defects impacting directly their users.
+Ironically, despite heavy reliance on static types, these teams were frequently plagued by defects directly impacting end-users.
